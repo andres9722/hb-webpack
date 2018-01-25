@@ -1,3 +1,5 @@
+import './grid.scss'
+
 export class Grid {
   constructor (node, movies) {
     this.node = document.querySelector(node)

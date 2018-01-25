@@ -1,3 +1,5 @@
+import './movies.scss'
+
 export class Movies {
   constructor (data) {
     this.data = `

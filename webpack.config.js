@@ -2,12 +2,27 @@ const path = require('path')
 const publicDir = path.resolve(__dirname, 'public')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = {
-  entry: './src/movies/index.js',
+  devtool: 'inline-source-map',
+  entry: {
+    movies: './src/movies/index.js',
+    gallery: './src/gallery/index.js'
+  },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, publicDir)
+    path: publicDir,
+    filename: '[name].js',
+    publicPath: './'
+  },
+  devServer: {
+    contentBase: publicDir,
+    publicPath: '/',
+    historyApiFallback: true,
+    compress: true,
+    open: true,
+    port: 3000,
+    openPage: ''
   },
   module: {
     rules: [
@@ -27,11 +42,14 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin({
-      filename: 'style.css'
-    }),
+    new ExtractTextPlugin('style.css'),
     new OptimizeCssAssetsPlugin({
       cssProcessorOptions: { discardComments: { removeAll: true } }
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: './src/movies/movies.html', to: './movies/movies.html' },
+      { from: './src/gallery/gallery.html', to: './gallery/gallery.html' },
+      { from: './src/index.html' }
+    ])
   ]
 }

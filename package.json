@@ -5,28 +5,21 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "serve": "http-server -c-1 --silent",
-    "build": "npm-run-all clean lint:** --parallel  copy:**",
-    
+    "serve": "webpack-dev-server",
+    "build": "npm-run-all clean lint:** --parallel",
     "lint": "npm-run-all lint:**",
     "lint:css": "stylelint 'src/**/*.scss' --syntax scss",
     "lint:js": "standard 'src/**/*.js'",
-    "watch:html": "onchange 'src/**/*.html' -- npm run copy:html",
-    
-    "watch:js": "onchange 'src/**/*.js' -- npm-run-all lint:js copy:js",
-    "copy:html": "copyfiles -u 1 src/**/*.html public",
-    
     "precommit": "npm run lint",
     "clean": "rm -rf public/",
     "start:build": "npm-run-all build serve",
-    "start": "npm-run-all copy:** --parallel watch:** serve",
+    "start": "npm-run-all bundle serve",
     "bundle": "webpack"
   },
   "author": "Andrés Felipe",
   "license": "MIT",
   "devDependencies": {
-    "copy": "^0.3.1",
-    "copyfiles": "^1.2.0",
+    "copy-webpack-plugin": "^4.3.1",
     "css-loader": "^0.28.9",
     "extract-text-webpack-plugin": "^3.0.2",
     "http-server": "^0.10.0",
@@ -43,7 +36,8 @@
     "stylelint": "^8.3.1",
     "stylelint-config-recommended-scss": "^3.0.0",
     "stylelint-scss": "^2.2.0",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
     "reset-css": "^2.2.1"
